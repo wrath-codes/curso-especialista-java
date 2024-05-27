@@ -615,4 +615,108 @@
 
 - ## Records
 
--
+  - Classes de dados imutáveis e transparentes.
+
+  - Criam automaticamente métodos `equals()`, `hashCode()`, `toString()`, `getters` e `constructors`.
+
+  - **Exemplo:**
+    - **Agendamento.java**
+
+        ```java
+        package com.example.agenda;
+
+        public class Agendamento {
+
+            private Horario horario;
+            private String descricao;
+
+            public Agendamento(Horario horario, String descricao) {
+                this.horario = horario;
+                this.descricao = descricao;
+            }
+
+            public Horario getHorario() {
+                return horario;
+            }
+
+            public void setHorario(Horario horario) {
+                this.horario = horario;
+            }
+
+            public String getDescricao() {
+                return descricao;
+            }
+
+            public void setDescricao(String descricao) {
+                this.descricao = descricao;
+            }
+
+            public String getHorarioFormatado() {
+                return horario.formatar();
+            }
+
+        }
+        ```
+
+    - **Horario.java**
+
+        ```java
+        package com.example.agenda;
+
+        public record Horario(int hora, int minuto) {
+
+            public Horario {
+                if (hora < 0 || hora > 23) {
+                    throw new IllegalArgumentException("Hora inválida: " + hora);
+                }
+                if (minuto < 0 || minuto > 59) {
+                    throw new IllegalArgumentException("Minuto inválido: " + minuto);
+                }
+            }
+
+            public String formatar() {
+                return String.format("%dh%dm", hora(), minuto());
+            }
+
+        }
+        ```
+
+    - **Principal.java (Teste)**
+
+        ```java
+        package com.example.agenda;
+
+        public class Principal {
+
+            public static void main(String[] args) {
+                Horario horario = new Horario(10, 30);
+
+                Agendamento agendamentoCabelo = new Agendamento(horario, "Corte de cabelo");
+                agendamentoCabelo.setHorario(new Horario(16, 20));
+
+                System.out.println(agendamentoCabelo.getHorarioFormatado());
+            }
+
+        }
+        ```
+
+    - No exemplo acima, a classe `Horario` é um record, ou seja, uma classe de dados imutável e transparente. O record `Horario` possui dois atributos `hora` e `minuto`, e um construtor que valida os valores dos atributos. O método `formatar` retorna uma representação textual do horário no formato `hhh:mmm`.
+
+    - A classe `Agendamento` possui um atributo `horario` do tipo `Horario`. O método `setHorario` da classe `Agendamento` recebe um novo `Horario` e substitui o `Horario` original. Como a classe `Horario` é imutável, a substituição do `Horario` não afeta o objeto original.
+
+    - Para modelar um record em um diagrama de classes UML, use a notação `<<record>>` acima do nome da classe. Por exemplo, `<<record>> Horario`. Observe abaixo um exemplo de diagrama de classes UML com um record `Horario`.
+  
+    ```mermaid
+    classDiagram
+        class Horario {
+            <<dataType>>
+            -hora: int
+            -minuto: int
+            +formatar(): String
+        }
+    ```
+
+    - O record `Horario` é uma classe de dados imutável e transparente. Ele possui dois atributos `hora` e `minuto`, e um método `formatar` que retorna uma representação textual do horário no formato `hhh:mmm`.
+
+[Sumário](sumario.md) | [Anterior](java-beans.md) | [Próximo(Herança)](heranca.md)
+| [Topo](#boas-práticas-de-encapsulamento)
