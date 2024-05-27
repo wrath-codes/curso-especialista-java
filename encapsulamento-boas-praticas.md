@@ -472,3 +472,147 @@
     - O método `setHora` da classe `Principal` tenta modificar o objeto `Horario` do agendamento de corte de cabelo. Como o objeto `Horario` é uma cópia defensiva, a modificação não é refletida no agendamento.
 
     - O método `setHora` da classe `Principal` modifica o objeto `Horario` original. Como o objeto `Horario` do agendamento de barba é uma cópia defensiva, a modificação não é refletida no agendamento.
+
+- ## Minimize a mutabilidade (incluindo Value Object)
+
+  - **Exemplo:**
+  - **Agendamento.java**
+
+    ```java
+    package com.exemplo.agenda;
+
+    public class Agendamento {
+
+        private Horario horario;
+        private String descricao;
+
+        public Agendamento(Horario horario, String descricao) {
+            this.horario = horario;
+            this.descricao = descricao;
+        }
+
+        public Horario getHorario() {
+            return horario;
+        }
+
+        public void setHorario(Horario horario) {
+            this.horario = horario;
+        }
+
+        public String getDescricao() {
+            return descricao;
+        }
+
+        public void setDescricao(String descricao) {
+            this.descricao = descricao;
+        }
+
+        public String getHorarioFormatado() {
+            return horario.formatar();
+        }
+
+    }
+    ```
+
+  - **Horario.java**
+
+    <tab><tab>
+
+    ```java
+    package com.example.agenda;
+
+    public final class Horario {
+
+        private final int hora;
+        private final int minuto;
+
+        public Horario(int hora, int minuto) {
+            if (hora < 0 || hora > 23) {
+                throw new IllegalArgumentException("Hora inválida: " + hora);
+            }
+            if (minuto < 0 || minuto > 59) {
+                throw new IllegalArgumentException("Minuto inválido: " + minuto);
+            }
+
+            this.hora = hora;
+            this.minuto = minuto;
+        }
+
+        public int getHora() {
+            return hora;
+        }
+
+        public int getMinuto() {
+            return minuto;
+        }
+
+        public String formatar() {
+            return String.format("%dh%dm", getHora(), getMinuto());
+        }
+    }
+    ```
+
+    - **CalculadoraHorario.java**
+
+    ```java
+    package com.example.agenda;
+
+    public class CalculadoraHorario {
+
+        private CalculadoraHorario() {
+        }
+
+        public static Horario somarDuasHoras(Horario horario) {
+            int hora = horario.getHora() + 2;
+
+            if (hora > 24) {
+                hora = hora - 24;
+            }
+
+    //        horario.setHora(hora);
+    //        return horario;
+
+            return new Horario(hora, horario.getMinuto());
+        }
+
+    }
+    ```
+
+    - **Principal.java (Teste)**
+
+    ```java
+    package com.example.agenda;
+
+    public class Principal {
+
+        public static void main(String[] args) {
+            Horario horario = new Horario(10, 30);
+            Agendamento agendamentoCabelo = new Agendamento(horario, "Corte de cabelo");
+
+            Horario novoHorario = CalculadoraHorario.somarDuasHoras(horario);
+
+            agendamentoCabelo.setHorario(new Horario(16, 20));
+
+            System.out.println(agendamentoCabelo.getHorarioFormatado());
+            System.out.println(novoHorario.formatar());
+        }
+    }
+    ```
+
+    - No exemplo acima, a classe `Horario` é um objeto de valor (Value Object), ou seja, é imutável. O construtor da classe `Horario` recebe a hora e o minuto, e não possui métodos de acesso e modificação dos atributos. Os atributos `hora` e `minuto` são finais, ou seja, não podem ser modificados após a criação do objeto.
+
+    - A classe `Agendamento` possui um atributo `horario` do tipo `Horario`. O método `setHorario` da classe `Agendamento` recebe um novo `Horario` e substitui o `Horario` original. Como a classe `Horario` é imutável, a substituição do `Horario` não afeta o objeto original.
+
+    - O método `somarDuasHoras` da classe `CalculadoraHorario` recebe um `Horario` e retorna um novo `Horario` com duas horas a mais. Como a classe `Horario` é imutável, o método retorna um novo `Horario` sem modificar o `Horario` original.
+
+    - O `final` na declaração da classe `Horario` impede que a classe seja estendida. O `final` na declaração dos atributos `hora` e `minuto` impede que os atributos sejam modificados após a criação do objeto.
+
+    - O método `formatar` da classe `Horario` retorna uma representação textual do horário no formato `hhh:mmm`.
+
+    - Usar objetos imutáveis (Value Object) ajuda a minimizar a mutabilidade do código, tornando-o mais previsível e fácil de entender. Garante que os objetos não sejam modificados acidentalmente, evitando efeitos colaterais indesejados.
+  
+    - Objetos imutáveis são seguros para uso concorrente, pois não podem ser modificados após a criação. Isso evita condições de corrida e outros problemas de concorrência.
+
+- ## Records
+
+-
