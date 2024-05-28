@@ -23,3 +23,4 @@
     - [Records](encapsulamento-boas-praticas.md#records)
 
 - ### Herança
+  - [**Introdução**](heranca.md)

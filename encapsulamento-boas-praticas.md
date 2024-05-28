@@ -3,9 +3,8 @@
 - ## Use **métodos** de **acesso** em classes publicas (incluindo **Tell, Don't Ask**)
 
   - **Tell, Don't Ask**: **diga** ao objeto o que você quer que ele faça, **não pergunte** a ele sobre seu estado para fazer algo.
-  
-  - **Exemplo Falho**:
-  
+  - **Exemplo Falho:**
+
     ```java
     public class Horario {
         public int hora;
@@ -15,11 +14,11 @@
             if (hora < 0 || hora > 23) {
                 throw new IllegalArgumentException("Hora inválida: " + hora);
             }
-            
+
             if (minuto < 0 || minuto > 59) {
                 throw new IllegalArgumentException("Minuto inválido: " + minuto);
             }
-            
+
             this.hora = hora;
             this.minuto = minuto;
         }
@@ -41,7 +40,7 @@
 
     - **Exemplo Correto**:
 
-    ```java
+    ````java
     public class Horario {
         private int hora;
         private int minuto;
@@ -58,12 +57,12 @@
         public int getMinuto() {
             return minuto;
         }
-        
+
         public void setHora(int hora) {
             if (hora < 0 || hora > 23) {
                 throw new IllegalArgumentException("Hora inválida: " + hora);
             }
-            
+
             this.hora = hora;
         }
 
@@ -82,15 +81,15 @@
             if (minuto < 0 || minuto > 59) {
                 throw new IllegalArgumentException("Minuto inválido: " + minuto);
             }
-            
+
             this.minuto = minuto;
         }
-        
+
         public String formatar() {
             return String.format("%dh%dm", getHora(), getMinuto());
         }
     }
-    ```
+    ````
 
     - **Principal.java (Teste)**:
 
@@ -347,18 +346,16 @@
     - No exemplo acima, a classe `CalculadoraArea` não deve ser instanciada, pois possui apenas métodos estáticos. Para evitar a instanciação, o construtor da classe é privado.
 
     - Na classe `Agendamento`, o construtor recebe um objeto `Horario` e uma descrição. O objeto `Horario` é uma cópia defensiva, para evitar que seja modificado fora da classe `Agendamento`.
-  
     - O método `getHorario` da classe `Agendamento` retorna uma cópia defensiva do objeto `Horario`. Dessa forma, o objeto `Horario` original não pode ser modificado fora da classe `Agendamento`.
 
     - O método `setHora` da classe `Principal` tenta modificar o objeto `Horario` do agendamento de corte de cabelo. Como o objeto `Horario` é uma cópia defensiva, a modificação não é refletida no agendamento.
-  
     - O método `setHora` da classe `Principal` modifica o objeto `Horario` original. Como o objeto `Horario` do agendamento de barba é uma cópia defensiva, a modificação não é refletida no agendamento.
-  
     - O método `main` da classe `Principal` testa os métodos da classe `CalculadoraArea`.
 
 - ## Crie copias defensivas
 
   - **Exemplo:**
+
     - **Horario.java**
 
     ```java
@@ -436,7 +433,7 @@
             return horario.formatar();
         }
 
-    }    
+    }
     ```
 
     - **Principal.java (Teste)**
@@ -610,7 +607,6 @@
     - O método `formatar` da classe `Horario` retorna uma representação textual do horário no formato `hhh:mmm`.
 
     - Usar objetos imutáveis (Value Object) ajuda a minimizar a mutabilidade do código, tornando-o mais previsível e fácil de entender. Garante que os objetos não sejam modificados acidentalmente, evitando efeitos colaterais indesejados.
-  
     - Objetos imutáveis são seguros para uso concorrente, pois não podem ser modificados após a criação. Isso evita condições de corrida e outros problemas de concorrência.
 
 - ## Records
@@ -620,92 +616,93 @@
   - Criam automaticamente métodos `equals()`, `hashCode()`, `toString()`, `getters` e `constructors`.
 
   - **Exemplo:**
+
     - **Agendamento.java**
 
-        ```java
-        package com.example.agenda;
+      ```java
+      package com.example.agenda;
 
-        public class Agendamento {
+      public class Agendamento {
 
-            private Horario horario;
-            private String descricao;
+          private Horario horario;
+          private String descricao;
 
-            public Agendamento(Horario horario, String descricao) {
-                this.horario = horario;
-                this.descricao = descricao;
-            }
+          public Agendamento(Horario horario, String descricao) {
+              this.horario = horario;
+              this.descricao = descricao;
+          }
 
-            public Horario getHorario() {
-                return horario;
-            }
+          public Horario getHorario() {
+              return horario;
+          }
 
-            public void setHorario(Horario horario) {
-                this.horario = horario;
-            }
+          public void setHorario(Horario horario) {
+              this.horario = horario;
+          }
 
-            public String getDescricao() {
-                return descricao;
-            }
+          public String getDescricao() {
+              return descricao;
+          }
 
-            public void setDescricao(String descricao) {
-                this.descricao = descricao;
-            }
+          public void setDescricao(String descricao) {
+              this.descricao = descricao;
+          }
 
-            public String getHorarioFormatado() {
-                return horario.formatar();
-            }
+          public String getHorarioFormatado() {
+              return horario.formatar();
+          }
 
-        }
-        ```
+      }
+      ```
 
     - **Horario.java**
 
-        ```java
-        package com.example.agenda;
+      ```java
+      package com.example.agenda;
 
-        public record Horario(int hora, int minuto) {
+      public record Horario(int hora, int minuto) {
 
-            public Horario {
-                if (hora < 0 || hora > 23) {
-                    throw new IllegalArgumentException("Hora inválida: " + hora);
-                }
-                if (minuto < 0 || minuto > 59) {
-                    throw new IllegalArgumentException("Minuto inválido: " + minuto);
-                }
-            }
+          public Horario {
+              if (hora < 0 || hora > 23) {
+                  throw new IllegalArgumentException("Hora inválida: " + hora);
+              }
+              if (minuto < 0 || minuto > 59) {
+                  throw new IllegalArgumentException("Minuto inválido: " + minuto);
+              }
+          }
 
-            public String formatar() {
-                return String.format("%dh%dm", hora(), minuto());
-            }
+          public String formatar() {
+              return String.format("%dh%dm", hora(), minuto());
+          }
 
-        }
-        ```
+      }
+      ```
 
     - **Principal.java (Teste)**
 
-        ```java
-        package com.example.agenda;
+      ```java
+      package com.example.agenda;
 
-        public class Principal {
+      public class Principal {
 
-            public static void main(String[] args) {
-                Horario horario = new Horario(10, 30);
+          public static void main(String[] args) {
+              Horario horario = new Horario(10, 30);
 
-                Agendamento agendamentoCabelo = new Agendamento(horario, "Corte de cabelo");
-                agendamentoCabelo.setHorario(new Horario(16, 20));
+              Agendamento agendamentoCabelo = new Agendamento(horario, "Corte de cabelo");
+              agendamentoCabelo.setHorario(new Horario(16, 20));
 
-                System.out.println(agendamentoCabelo.getHorarioFormatado());
-            }
+              System.out.println(agendamentoCabelo.getHorarioFormatado());
+          }
 
-        }
-        ```
+      }
+      ```
 
     - No exemplo acima, a classe `Horario` é um record, ou seja, uma classe de dados imutável e transparente. O record `Horario` possui dois atributos `hora` e `minuto`, e um construtor que valida os valores dos atributos. O método `formatar` retorna uma representação textual do horário no formato `hhh:mmm`.
 
     - A classe `Agendamento` possui um atributo `horario` do tipo `Horario`. O método `setHorario` da classe `Agendamento` recebe um novo `Horario` e substitui o `Horario` original. Como a classe `Horario` é imutável, a substituição do `Horario` não afeta o objeto original.
 
     - Para modelar um record em um diagrama de classes UML, use a notação `<<record>>` acima do nome da classe. Por exemplo, `<<record>> Horario`. Observe abaixo um exemplo de diagrama de classes UML com um record `Horario`.
-  
+
     ```mermaid
     classDiagram
         class Horario {
