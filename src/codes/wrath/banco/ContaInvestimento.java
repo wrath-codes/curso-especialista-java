@@ -13,4 +13,9 @@ public class ContaInvestimento extends Conta {
         this.valorTotalRendimentos += rendimentos;
         depositar(rendimentos);
     }
+
+    public void imprimirDemonstrativo() {
+        super.imprimirDemonstrativo();
+        System.out.printf("Rendimentos: %.2f%n", getValorTotalRendimentos());
+    }
 }

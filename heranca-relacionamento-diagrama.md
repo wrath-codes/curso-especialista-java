@@ -37,3 +37,5 @@
     Conta <|-- ContaInvestimento
     ContaInvestimento <|-- ContaEspecial
     ```
+
+[Pagina Anterior: Duplicando Classes](heranca-duplicando-classes.md)   [Sumario](sumario.md) | [Proxima Pagina](heranca-metodos-protected.md)
