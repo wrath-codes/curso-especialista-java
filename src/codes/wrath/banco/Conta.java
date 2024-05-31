@@ -30,7 +30,7 @@ public class Conta {
         return saldo;
     }
 
-    public void validarSaldoParaSaque(double valorSaque) {
+    protected void validarSaldoParaSaque(double valorSaque) {
         if (getSaldo() < valorSaque) {
             throw new RuntimeException("Saldo insuficiente para saque");
         }

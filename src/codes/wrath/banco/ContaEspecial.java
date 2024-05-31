@@ -31,7 +31,7 @@ public class ContaEspecial extends ContaInvestimento {
     }
 
     @Override
-    public void validarSaldoParaSaque(double valorSaque) {
+    protected final void validarSaldoParaSaque(double valorSaque) {
         if (getSaldoDisponivel() < valorSaque) {
             throw new RuntimeException("Saldo insuficiente para saque");
         }
