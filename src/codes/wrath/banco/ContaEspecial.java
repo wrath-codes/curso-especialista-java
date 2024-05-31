@@ -5,6 +5,11 @@ public class ContaEspecial extends ContaInvestimento {
     private double limiteChequeEspecial;
     private double tarifaMensal;
 
+    public ContaEspecial(Titular titular, int agencia, int numero, double tarifaMensal) {
+        super(titular, agencia, numero);
+        this.tarifaMensal = tarifaMensal;
+    }
+
     public double getLimiteChequeEspecial() {
         return limiteChequeEspecial;
     }
@@ -38,12 +43,16 @@ public class ContaEspecial extends ContaInvestimento {
 
     @Override
     public void imprimirDemonstrativo() {
-        System.out.println();
-        System.out.printf("Agência: %d%n", getAgencia());
-        System.out.printf("Conta: %d%n", getNumero());
-        System.out.printf("Titular: %s%n", getTitular().getNome());
-        System.out.printf("Saldo: %.2f%n", getSaldo());
+        super.imprimirDemonstrativo();
         System.out.printf("Saldo disponível: %.2f%n", getSaldoDisponivel());
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ContaEspecial(titular=%s, agencia=%d, numero=%d, rendimentos=%.2f, chequeEspecias=%.2f, tarifaMensal=%.2f)",
+                getTitular().getNome(), getAgencia(),
+                getNumero(), getValorTotalRendimentos(), getLimiteChequeEspecial(), getTarifaMensal());
     }
 
 }

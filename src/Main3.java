@@ -4,12 +4,8 @@ import codes.wrath.banco.Titular;
 public class Main3 {
 
     public static void main(String[] args) {
-        ContaEspecial contaEspecial = new ContaEspecial();
-        contaEspecial.setTitular(new Titular("João da Silva", "12312312300"));
-        contaEspecial.setAgencia(1234);
-        contaEspecial.setNumero(999999);
+        ContaEspecial contaEspecial = new ContaEspecial(new Titular("João da Silva", "12312312300"), 1234, 999999, 90);
         contaEspecial.setLimiteChequeEspecial(1000);
-        contaEspecial.setTarifaMensal(90);
 
         contaEspecial.imprimirDemonstrativo();
 

@@ -7,31 +7,26 @@ public class Conta {
     private int numero;
     private double saldo;
 
-    public Titular getTitular() {
-        return titular;
+    public Conta(Titular titular, int agencia, int numero) {
+        this.titular = titular;
+        this.agencia = agencia;
+        this.numero = numero;
+        this.saldo = 0.0;
     }
 
-    public void setTitular(Titular titular) {
-        this.titular = titular;
+    public Titular getTitular() {
+        return titular;
     }
 
     public int getAgencia() {
         return agencia;
     }
 
-    public void setAgencia(int agencia) {
-        this.agencia = agencia;
-    }
-
     public int getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public double getSaldo() {
+    public final double getSaldo() {
         return saldo;
     }
 
@@ -66,4 +61,10 @@ public class Conta {
         System.out.printf("Titular: %s%n", getTitular().getNome());
         System.out.printf("Saldo: %.2f%n", getSaldo());
     }
+
+    @Override
+    public String toString() {
+        return String.format("Conta(titular=%s, agencia=%d, numero=%d)", titular.getNome(), agencia, numero);
+    }
+
 }

@@ -5,10 +5,8 @@ import codes.wrath.banco.Titular;
 public class Main2 {
 
     public static void main(String[] args) {
-        ContaInvestimento contaInvestimento = new ContaInvestimento();
-        contaInvestimento.setTitular(new Titular("João da Silva", "12312312300"));
-        contaInvestimento.setAgencia(1234);
-        contaInvestimento.setNumero(999999);
+        Titular titular = new Titular("João da Silva", "12312312300");
+        ContaInvestimento contaInvestimento = new ContaInvestimento(titular, 1234, 999999);
 
         contaInvestimento.imprimirDemonstrativo();
 
